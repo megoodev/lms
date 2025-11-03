@@ -1,6 +1,6 @@
 "use server";
 
-import { courseSchema, CourseSChemaType } from "@/lib/courseSchema";
+import { courseSchema, CourseSChemaType } from "@/lib/zodSchemas";
 import prisma from "@/lib/db";
 import { ApiResponse } from "@/lib/types";
 import arcjet, { detectBot } from "@/lib/arcjet";

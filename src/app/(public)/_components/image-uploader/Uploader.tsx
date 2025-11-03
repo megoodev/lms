@@ -24,13 +24,14 @@ interface UploaderState {
 }
 interface iAppProps {
   onChange: (key: string) => void;
-  value: string;
+  value: string | undefined;
+  typeAccept: "image" | "video";
 }
-const Uploader = ({ onChange, value }: iAppProps) => {
+const Uploader = ({ onChange, value, typeAccept }: iAppProps) => {
   const [fileState, setFileState] = useState<UploaderState>({
     error: false,
     file: null,
-    fileType: "image",
+    fileType: typeAccept === 'video' ? 'video' : 'image',
     id: null,
     isDeleting: false,
     progress: 0,
@@ -96,7 +97,7 @@ const Uploader = ({ onChange, value }: iAppProps) => {
             setFileState((prev) => ({
               ...prev,
               progress: 100,
-            }));          onChange?.(key);
+            })); onChange?.(key);
 
             toast.success("File uploaded successfully");
             resolve();
@@ -134,7 +135,7 @@ const Uploader = ({ onChange, value }: iAppProps) => {
       progress: 0,
       uploading: false,
       isDeleting: false,
-      fileType: "image",
+      fileType: typeAccept === 'video' ? 'video' : 'image',
     });
     uploadFile(file);
   }, []);
@@ -160,10 +161,10 @@ const Uploader = ({ onChange, value }: iAppProps) => {
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
-    accept: { "image/*": [] },
+    accept: typeAccept === 'video' ? { "video/*": [] } : { "image/*": [] },
     maxFiles: 1,
     multiple: false,
-    maxSize: 5 * 1024 * 1024,
+    maxSize: typeAccept === 'video' ? (5000 * 1024 * 1024) : (5 * 1024 * 1024),
     onDropRejected: rejrctedFile,
     disabled: fileState.uploading || !!fileState.objectUrl,
   });
@@ -195,7 +196,7 @@ const Uploader = ({ onChange, value }: iAppProps) => {
           file: null,
           id: null,
           isDeleting: false,
-          fileType: "image",
+          fileType: typeAccept === 'video' ? 'video' : 'image',
         }));
         toast.success("File reomved successfully");
       }
@@ -214,6 +215,7 @@ const Uploader = ({ onChange, value }: iAppProps) => {
     if (fileState.file) {
       return (
         <RenderUploadedState
+          isImage={fileState.fileType === 'image'}
           url={fileState.objectUrl as string}
           isDeleting={fileState.isDeleting}
           onDelete={handleRemoveFile}

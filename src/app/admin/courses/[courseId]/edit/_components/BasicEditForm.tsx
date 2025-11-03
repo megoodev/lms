@@ -5,7 +5,7 @@ import {
   CourseSChemaType,
   levelCourse,
   statusCourse,
-} from "@/lib/courseSchema";
+} from "@/lib/zodSchemas";
 
 import slugify from "slugify";
 import { useForm } from "react-hook-form";
@@ -43,7 +43,6 @@ import { singelurCourseType } from "../../../../../../data/admin/get-singlur-cou
 import { EditCourse } from "../actions/actions";
 
 const BasicEditForm = ({ course }: { course: singelurCourseType }) => {
-
   const [pending, startTransition] = useTransition();
   const form = useForm<CourseSChemaType>({
     resolver: zodResolver(courseSchema),
@@ -64,7 +63,7 @@ const BasicEditForm = ({ course }: { course: singelurCourseType }) => {
 
   function onSubmit(values: CourseSChemaType) {
     startTransition(async () => {
-      const { data, error } = await tryCatch(EditCourse(values , course.id));
+      const { data, error } = await tryCatch(EditCourse(values, course.id));
       if (error) {
         toast.error("an unexpected error occurred,please try again");
         return;

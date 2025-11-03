@@ -5,7 +5,7 @@ import {
   CourseSChemaType,
   levelCourse,
   statusCourse,
-} from "@/lib/courseSchema";
+} from "@/lib/zodSchemas";
 
 import slugify from "slugify";
 import { useForm } from "react-hook-form";
@@ -50,7 +50,7 @@ const CourseCreationPage = () => {
   const [pending, startTransition] = useTransition();
   const form = useForm<CourseSChemaType>({
     resolver: zodResolver(courseSchema),
-    mode: "onSubmit",
+    mode: "all",
     defaultValues: {
       title: "",
       category: "Business",
@@ -107,9 +107,9 @@ const CourseCreationPage = () => {
                 name="title"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Title</FormLabel>
+                    <FormLabel>Name</FormLabel>
                     <FormControl>
-                      <Input placeholder="Title" {...field} />
+                      <Input placeholder="Name" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -179,7 +179,11 @@ const CourseCreationPage = () => {
                   <FormItem>
                     <FormLabel>File Key</FormLabel>
                     <FormControl>
-                      <Uploader onChange={field.onChange} value={field.value} />
+                      <Uploader
+                        onChange={field.onChange}
+                        typeAccept="image"
+                        value={field.value}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

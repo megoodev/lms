@@ -1,15 +1,15 @@
 import { Button } from "@/components/ui/button";
+import { Spinner } from "@/components/ui/spinner";
 import { cn } from "@/lib/utils";
 import {
   CloudUploadIcon,
   ImageIcon,
-  Loader,
   Loader2,
   XIcon,
 } from "lucide-react";
 import Image from "next/image";
 import React from "react";
-import { boolean } from "zod";
+
 
 const RenderEmpetyState = ({ isDragActive }: { isDragActive: boolean }) => {
   return (
@@ -50,7 +50,7 @@ export const RenderUploadingState = ({ progress }: { progress: number }) => {
   return (
     <div className="text-center">
       <div className="flex items-center flex-col mx-auto justify-center gap-2.5 mb-4">
-        <Loader2 className="size-8 animate-spin transform-gpu text-muted-foreground" />
+        <Spinner />
         <p className="text-2xl text-muted-foreground ">{progress}%</p>
       </div>
     </div>
@@ -60,10 +60,12 @@ export const RenderUploadedState = ({
   url,
   isDeleting,
   onDelete,
+  isImage
 }: {
   url: string;
   isDeleting: boolean;
   onDelete: () => void;
+  isImage: boolean;
 }) => {
   return (
     <div className="text-center relative">
@@ -77,7 +79,8 @@ export const RenderUploadedState = ({
         <XIcon className="size-4" />
       </Button>
       <div className=" relative flex items-center mx-auto justify-center size-24 md:size-48 lg:size-96">
-        <Image src={url} alt={url} fill className="object-contain" />
+        {isImage ? (<Image src={url} alt={url} fill className="object-contain" />): ( <video src={url} controls className="w-full h-full object-contain"/>)}
+        
       </div>
     </div>
   );
