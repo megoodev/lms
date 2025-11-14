@@ -1,5 +1,13 @@
-
+import { ChartAreaInteractive } from "@/components/sidebar/chart-area-interactive";
+import { SectionCards } from "@/components/sidebar/section-cards";
 
 export default function Page() {
-  return <></>
+  return (
+    <>
+      <SectionCards />
+      <div className="px-2 lg:px-4">
+        <ChartAreaInteractive />
+      </div>
+    </>
+  );
 }

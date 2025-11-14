@@ -15,21 +15,23 @@ datasource db {
 }
 
 model User {
-  id            String    @id
-  name          String
-  email         String
-  emailVerified Boolean   @default(false)
-  image         String?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @default(now()) @updatedAt
-  sessions      Session[]
-  accounts      Account[]
-  courses       Course[]
+  id               String    @id
+  name             String
+  email            String
+  emailVerified    Boolean   @default(false)
+  image            String?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @default(now()) @updatedAt
+  sessions         Session[]
+  accounts         Account[]
+  courses          Course[]
+  stripeCustomerId String?
 
   role       String?
-  banned     Boolean?  @default(false)
+  banned     Boolean?     @default(false)
   banReason  String?
   banExpires DateTime?
+  enrollment Enrollment[]
 
   @@unique([email])
   @@map("user")
@@ -96,9 +98,11 @@ model Course {
   status           StatusCourse @default(Draft)
   user             User         @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId           String
+  stripePriceId    String       @unique
   createdAt        DateTime     @default(now())
   updatedAt        DateTime     @updatedAt
   chapters         Chapter[]
+  enrollment       Enrollment[]
 }
 
 enum StatusCourse {
@@ -120,17 +124,37 @@ model Chapter {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   lessons   lesson[]
-  course    Course?  @relation(fields: [courseId], references: [id])
-  courseId  String?
+  course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  courseId  String
 }
 
 model lesson {
-  id          String   @id @default(uuid())
+  id          String  @id @default(uuid())
   title       String
   description String?
   videoKey    String?
   thumbnilKey String?
   position    Int
-  chapter     Chapter? @relation(fields: [chapterId], references: [id])
-  chapterId   String?
+  chapter     Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+  chapterId   String
+}
+
+model Enrollment {
+  id        String           @id @default(uuid())
+  amount    Int
+  status    EnrollmentStatus @default(Pending)
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+  course    Course           @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  courseId  String
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+
+  @@unique([userId, courseId])
+}
+
+enum EnrollmentStatus {
+  Active
+  Pending
+  Cancelled
 }

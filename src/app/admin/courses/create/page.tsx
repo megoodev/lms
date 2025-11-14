@@ -40,13 +40,15 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import Uploader from "@/app/(public)/_components/image-uploader/Uploader";
-import { useTransition } from "react";
+import { useEffect, useTransition } from "react";
 import { CreateCourse } from "./actions/action";
 import { tryCatch } from "@/hooks/trycatch";
 import { toast } from "sonner";
-import { redirect } from "next/navigation";
+import { redirect, usePathname } from "next/navigation";
 import { Spinner } from "@/components/ui/spinner";
+import { request } from "@arcjet/next";
 const CourseCreationPage = () => {
+
   const [pending, startTransition] = useTransition();
   const form = useForm<CourseSChemaType>({
     resolver: zodResolver(courseSchema),

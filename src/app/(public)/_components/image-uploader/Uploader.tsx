@@ -10,7 +10,6 @@ import RenderEmpetyState, {
 } from "./RenderState";
 import { toast } from "sonner";
 
-
 interface UploaderState {
   file: File | null;
   error: boolean;
@@ -31,12 +30,12 @@ const Uploader = ({ onChange, value, typeAccept }: iAppProps) => {
   const [fileState, setFileState] = useState<UploaderState>({
     error: false,
     file: null,
-    fileType: typeAccept === 'video' ? 'video' : 'image',
+    fileType: typeAccept === "video" ? "video" : "image",
     id: null,
     isDeleting: false,
     progress: 0,
     uploading: false,
-    key: value
+    key: value,
   });
 
   const uploadFile = async (file: File) => {
@@ -79,8 +78,6 @@ const Uploader = ({ onChange, value, typeAccept }: iAppProps) => {
         error: false,
       }));
 
-
-
       await new Promise<void>((resolve, reject) => {
         const xhr = new XMLHttpRequest();
         xhr.upload.onprogress = (event) => {
@@ -97,7 +94,8 @@ const Uploader = ({ onChange, value, typeAccept }: iAppProps) => {
             setFileState((prev) => ({
               ...prev,
               progress: 100,
-            })); onChange?.(key);
+            }));
+            onChange?.(key);
 
             toast.success("File uploaded successfully");
             resolve();
@@ -135,7 +133,7 @@ const Uploader = ({ onChange, value, typeAccept }: iAppProps) => {
       progress: 0,
       uploading: false,
       isDeleting: false,
-      fileType: typeAccept === 'video' ? 'video' : 'image',
+      fileType: typeAccept === "video" ? "video" : "image",
     });
     uploadFile(file);
   }, []);
@@ -161,10 +159,10 @@ const Uploader = ({ onChange, value, typeAccept }: iAppProps) => {
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
-    accept: typeAccept === 'video' ? { "video/*": [] } : { "image/*": [] },
+    accept: typeAccept === "video" ? { "video/*": [] } : { "image/*": [] },
     maxFiles: 1,
     multiple: false,
-    maxSize: typeAccept === 'video' ? (5000 * 1024 * 1024) : (5 * 1024 * 1024),
+    maxSize: typeAccept === "video" ? 5000 * 1024 * 1024 : 5 * 1024 * 1024,
     onDropRejected: rejrctedFile,
     disabled: fileState.uploading || !!fileState.objectUrl,
   });
@@ -196,7 +194,7 @@ const Uploader = ({ onChange, value, typeAccept }: iAppProps) => {
           file: null,
           id: null,
           isDeleting: false,
-          fileType: typeAccept === 'video' ? 'video' : 'image',
+          fileType: typeAccept === "video" ? "video" : "image",
         }));
         toast.success("File reomved successfully");
       }
@@ -215,7 +213,7 @@ const Uploader = ({ onChange, value, typeAccept }: iAppProps) => {
     if (fileState.file) {
       return (
         <RenderUploadedState
-          isImage={fileState.fileType === 'image'}
+          isImage={fileState.fileType === "image"}
           url={fileState.objectUrl as string}
           isDeleting={fileState.isDeleting}
           onDelete={handleRemoveFile}

@@ -24,4 +24,4 @@ const EditLessonRoute = async ({ params }: EditLessonRouteProps) => {
   )
 }
 
-export default EditLessonRoute
+export default EditLessonRoute;

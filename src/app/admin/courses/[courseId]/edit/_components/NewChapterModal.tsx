@@ -6,13 +6,19 @@ import {
   DialogContent,
   DialogTitle,
   DialogDescription,
-
 } from "@/components/ui/dialog";
 import { PlusIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { chapterSchema, ChapterSchemaType } from "@/lib/zodSchemas";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { AlertDialogFooter } from "@/components/ui/alert-dialog";
 import { DialogClose } from "@radix-ui/react-dialog";
@@ -23,48 +29,46 @@ import { toast } from "sonner";
 import { success } from "zod";
 
 interface NewChapterModalProps {
-  courseId: string
+  courseId: string;
 }
 
 const NewChapterModal = ({ courseId }: NewChapterModalProps) => {
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
   const form = useForm<ChapterSchemaType>({
     resolver: zodResolver(chapterSchema),
     mode: "onSubmit",
     defaultValues: {
       name: "",
-      cousreId: courseId,
+      courseId: courseId,
     },
   });
-  const [pending, startTransition] = useTransition()
+  const [pending, startTransition] = useTransition();
   const onSubmit = (values: ChapterSchemaType) => {
-
     startTransition(async () => {
-      const { data, error } = await tryCatch(createChapter(values))
+      const { data, error } = await tryCatch(createChapter(values));
 
       if (error) {
-        toast.error('un expected error occurred, Please try again.')
+        toast.error("un expected error occurred, Please try again.");
         return;
       }
-      if (data.status === 'error') {
-        toast.error(data.message)
+      if (data.status === "error") {
+        toast.error(data.message);
         return;
-      } else if (data.status === 'success') {
-        toast.success(data.message)
-        setOpen(false)
-        return
+      } else if (data.status === "success") {
+        toast.success(data.message);
+        setOpen(false);
+        return;
       }
-    })
-
-  }
-  const handelOpenChange =(open: boolean)=> {
-    setOpen(open)
-    form.reset()
-  }
+    });
+  };
+  const handelOpenChange = (open: boolean) => {
+    setOpen(open);
+    form.reset();
+  };
   return (
     <Dialog open={open} onOpenChange={handelOpenChange}>
       <DialogTrigger asChild>
-        <Button variant='outline'>
+        <Button variant="outline">
           <PlusIcon />
           Add New Chapter
         </Button>
@@ -73,7 +77,9 @@ const NewChapterModal = ({ courseId }: NewChapterModalProps) => {
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Create new chapter</DialogTitle>
-          <DialogDescription>What would you like to name your chapter ?</DialogDescription>
+          <DialogDescription>
+            What would you like to name your chapter ?
+          </DialogDescription>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
               <FormField
@@ -93,7 +99,9 @@ const NewChapterModal = ({ courseId }: NewChapterModalProps) => {
                 <DialogClose>
                   <Button variant="outline"> Cancel</Button>
                 </DialogClose>
-                <Button type="submit" disabled={pending}>{pending ? 'Creating...' : 'Create'}</Button>
+                <Button type="submit" disabled={pending}>
+                  {pending ? "Creating..." : "Create"}
+                </Button>
               </AlertDialogFooter>
             </form>
           </Form>

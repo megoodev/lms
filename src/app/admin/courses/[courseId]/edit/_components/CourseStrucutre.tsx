@@ -157,7 +157,7 @@ const CourseStrucutre = ({ data }: { data: singelurCourseType }) => {
 
       if (!chapterId || chapterId !== overChapterId) {
         toast.error(
-          "lesson move between diffrante chaptes or invalid chapter ID is not allowed"
+          "lesson move between diffrante chaptes or invalid chapter Id is not allowed"
         );
         return;
       }
@@ -301,9 +301,12 @@ const CourseStrucutre = ({ data }: { data: singelurCourseType }) => {
                         </CollapsibleTrigger>
                         <p>{chapter.title}</p>
                       </div>
-                      <DeleteChapterModal  chapterId={chapter.id} courseId={data.id} />
+                      <DeleteChapterModal
+                        chapterId={chapter.id}
+                        courseId={data.id}
+                      />
                     </div>
-                            <Separator className="my-2" />
+                    <Separator className="my-2" />
                     <CollapsibleContent>
                       <SortableContext
                         items={chapter.lessons.map((lesson) => lesson.id)}
@@ -333,12 +336,15 @@ const CourseStrucutre = ({ data }: { data: singelurCourseType }) => {
                                     {lesson.title}
                                   </Link>
                                 </div>
-                                <DeleteLessonModal chapterId={chapter.id} courseId={data.id} lessonId={lesson.id} />
+                                <DeleteLessonModal
+                                  chapterId={chapter.id}
+                                  courseId={data.id}
+                                  lessonId={lesson.id}
+                                />
                               </div>
                             )}
                           </SortableItem>
                         ))}
-
                       </SortableContext>
                     </CollapsibleContent>
                   </Collapsible>

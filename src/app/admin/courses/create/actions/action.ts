@@ -3,24 +3,18 @@
 import { courseSchema, CourseSChemaType } from "@/lib/zodSchemas";
 import prisma from "@/lib/db";
 import { ApiResponse } from "@/lib/types";
-import arcjet, { detectBot } from "@/lib/arcjet";
-import { fixedWindow, request } from "@arcjet/next";
+import arcjet, { fixedWindow } from "@/lib/arcjet";
+import { request } from "@arcjet/next";
 import { requireAdmin } from "@/data/admin/require-admin";
+import { stripe } from "@/lib/stripe";
 
-const aj = arcjet
-  .withRule(
-    detectBot({
-      mode: "LIVE",
-      allow: [],
-    })
-  )
-  .withRule(
-    fixedWindow({
-      mode: "LIVE",
-      window: "1m",
-      max: 5,
-    })
-  );
+const aj = arcjet.withRule(
+  fixedWindow({
+    mode: "LIVE",
+    window: "1m",
+    max: 5,
+  })
+);
 export async function CreateCourse(
   values: CourseSChemaType
 ): Promise<ApiResponse> {
@@ -58,11 +52,20 @@ export async function CreateCourse(
         message: "invalid form data",
       };
     }
+    const stripeProduct = await stripe.products.create({
+      name: Validation.data.title,
+      description: Validation.data.smallDescription,
+      default_price_data: {
+        currency: "usd",
+        unit_amount: Validation.data.price * 100,
+      },
+    });
 
     await prisma.course.create({
       data: {
         ...Validation.data,
         userId: session.user.id,
+        stripePriceId: stripeProduct.default_price as string,
       },
     });
 

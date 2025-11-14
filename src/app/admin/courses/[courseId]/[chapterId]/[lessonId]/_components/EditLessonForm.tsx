@@ -22,6 +22,7 @@ const EditLessonForm = ({ data, courseId, chapterId, lessonId }: { data: adminLe
     resolver: zodResolver(lessonSchema),
     mode: "all",
     defaultValues: {
+      id: lessonId,
       name: data.title,
       cousreId: courseId,
       chapterId: chapterId,

@@ -18,8 +18,8 @@ export async function EditLesson(values: LessonSchemaType): Promise<ApiResponse>
     }
     await prisma.lesson.update({
       where: {
-        id: result.data.id
-        chapterId: result.data.chapterId
+        id:result.data.id
+          
       },
       data: {
         title: result.data.name,
