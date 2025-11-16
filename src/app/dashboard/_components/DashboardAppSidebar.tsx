@@ -35,20 +35,9 @@ import { School2Icon } from "lucide-react";
 const data = {
   navMain: [
     {
-      title: "Courses",
-      url: "/admin/courses",
-      icon: School2Icon,
-    },
-    {
       title: "Dashboard",
-      url: "/admin",
+      url: "/dashboard",
       icon: IconDashboard,
-    },
-
-    {
-      title: "Analytics",
-      url: "/admin/dashboard",
-      icon: IconChartBar,
     },
   ],
   navClouds: [

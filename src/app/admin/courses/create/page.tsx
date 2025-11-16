@@ -40,16 +40,16 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import Uploader from "@/app/(public)/_components/image-uploader/Uploader";
-import { useEffect, useTransition } from "react";
+import { useTransition } from "react";
 import { CreateCourse } from "./actions/action";
 import { tryCatch } from "@/hooks/trycatch";
 import { toast } from "sonner";
-import { redirect, usePathname } from "next/navigation";
+import { redirect } from "next/navigation";
 import { Spinner } from "@/components/ui/spinner";
-import { request } from "@arcjet/next";
+import useConfetti from "@/hooks/useConfetti";
 const CourseCreationPage = () => {
-
   const [pending, startTransition] = useTransition();
+  const { fireConfetti } = useConfetti();
   const form = useForm<CourseSChemaType>({
     resolver: zodResolver(courseSchema),
     mode: "all",
@@ -77,6 +77,7 @@ const CourseCreationPage = () => {
       if (data.status === "success") {
         toast.success(data.message);
         form.reset(redirect("/admin/courses"));
+        fireConfetti();
       } else if (data.status === "error") {
         toast.error(data.message);
       }

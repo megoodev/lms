@@ -1,34 +1,47 @@
-'use client';
-import { adminLessonType } from '@/data/admin/Admin-get-lesson'
+"use client";
+import { adminLessonType } from "@/data/admin/Admin-get-lesson";
 import { lessonSchema, LessonSchemaType } from "@/lib/zodSchemas";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import TextEditor from '@/components/editor/TextEditor';
-import Uploader from '@/app/(public)/_components/image-uploader/Uploader';
-import { Button } from '@/components/ui/button';
-import { EditLesson } from '../actions/action';
-import { tryCatch } from '@/hooks/trycatch';
-import { toast } from 'sonner';
-import { Spinner } from '@/components/ui/spinner';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import TextEditor from "@/components/editor/TextEditor";
+import Uploader from "@/app/(public)/_components/image-uploader/Uploader";
+import { Button } from "@/components/ui/button";
+import { EditLesson } from "../actions/action";
+import { tryCatch } from "@/hooks/trycatch";
+import { toast } from "sonner";
+import { Spinner } from "@/components/ui/spinner";
 
-
-
-const EditLessonForm = ({ data, courseId, chapterId, lessonId }: { data: adminLessonType, lessonId: string, courseId: string, chapterId: string }) => {
+const EditLessonForm = ({
+  data,
+  courseId,
+  chapterId,
+}: {
+  data: adminLessonType;
+  courseId: string;
+  chapterId: string;
+}) => {
   const [pending, startTransition] = useTransition();
   const form = useForm<LessonSchemaType>({
     resolver: zodResolver(lessonSchema),
     mode: "all",
     defaultValues: {
-      id: lessonId,
+      id: data.id,
       name: data.title,
-      cousreId: courseId,
+      courseId: courseId,
       chapterId: chapterId,
-      videoKey: data.videoKey || '',
-      thumbnilKey: data.thumbnilKey || '',
-      description: data.description || '',
+      videoKey: data.videoKey as string,
+      thumbnilKey: data.thumbnilKey as string,
+      description: data.description as string,
     },
   });
 
@@ -49,7 +62,7 @@ const EditLessonForm = ({ data, courseId, chapterId, lessonId }: { data: adminLe
 
   return (
     <Form {...form}>
-      <form className='space-y-6 mt-6' onSubmit={form.handleSubmit(onSubmit)}>
+      <form className="space-y-6 mt-6" onSubmit={form.handleSubmit(onSubmit)}>
         <FormField
           control={form.control}
           name="name"
@@ -60,7 +73,6 @@ const EditLessonForm = ({ data, courseId, chapterId, lessonId }: { data: adminLe
                 <Input placeholder="Name" {...field} />
               </FormControl>
               <FormMessage />
-
             </FormItem>
           )}
         />
@@ -85,7 +97,11 @@ const EditLessonForm = ({ data, courseId, chapterId, lessonId }: { data: adminLe
             <FormItem>
               <FormLabel>Thumbnil image</FormLabel>
               <FormControl>
-                <Uploader typeAccept='image' onChange={field.onChange} value={field.value} />
+                <Uploader
+                  typeAccept="image"
+                  onChange={field.onChange}
+                  value={field.value}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -97,28 +113,30 @@ const EditLessonForm = ({ data, courseId, chapterId, lessonId }: { data: adminLe
           render={({ field }) => (
             <FormItem>
               <FormLabel>Video</FormLabel>
-              <FormControl className='overflow-hidden'>
-                <Uploader typeAccept='video' onChange={field.onChange} value={field.value} />
+              <FormControl className="overflow-hidden">
+                <Uploader
+                  typeAccept="video"
+                  onChange={field.onChange}
+                  value={field.value}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
 
-         <Button type="submit" disabled={pending}>
-                {pending ? (
-                  <>
-                    Saving... <Spinner />
-                  </>
-                ) : (
-                  <>
-                    Save 
-                  </>
-                )}
-              </Button>
+        <Button type="submit" disabled={pending}>
+          {pending ? (
+            <>
+              Saving... <Spinner />
+            </>
+          ) : (
+            <>Save</>
+          )}
+        </Button>
       </form>
     </Form>
-  )
-}
+  );
+};
 
-export default EditLessonForm
+export default EditLessonForm;

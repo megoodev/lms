@@ -1,5 +1,5 @@
 import prisma from "@/lib/db";
-import {requireUser} from "../user/Require-user";
+import { requireUser } from "../user/Require-user";
 
 export async function getEnrolledCourses() {
   const user = await requireUser();
@@ -14,9 +14,11 @@ export async function getEnrolledCourses() {
           id: true,
           level: true,
           description: true,
+          smallDescription: true,
           category: true,
           duration: true,
           fileKey: true,
+          status: true,
           slug: true,
           title: true,
           price: true,
@@ -25,18 +27,25 @@ export async function getEnrolledCourses() {
               title: true,
               lessons: {
                 select: {
-                  title: true,
-                  thumbnilKey: true,
-                  videoKey: true,
                   id: true,
+                  lessonProgress: {
+                    where: {
+                      userId: user.id,
+                    },
+                    select: {
+                      completed: true,
+                      id: true,
+                      lessonId: true,
+                    },
+                  },
                 },
                 orderBy: {
-                  position: "desc",
+                  position: "asc",
                 },
               },
             },
             orderBy: {
-              position: "desc",
+              position: "asc",
             },
           },
         },
@@ -45,3 +54,7 @@ export async function getEnrolledCourses() {
   });
   return data;
 }
+
+export type EnrolledCoursesType = Awaited<
+  ReturnType<typeof getEnrolledCourses>
+>[0];

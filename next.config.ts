@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       {
-        hostname: "lms.project.next.jsx.t3.storage.dev",
+        hostname: "ohilms",
         protocol: "https",
       },
     ],

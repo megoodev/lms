@@ -22,8 +22,9 @@ export async function POST(req: Request) {
   if (event.type === "checkout.session.completed") {
     const courseId = session.metadata?.courseId;
     const customerId = session?.customer as string;
+
     if (!courseId) {
-      throw new Error("Course id not found...");
+      throw new Error("course Id not found...");
     }
     const user = await prisma.user.findFirst({
       where: {
@@ -45,5 +46,5 @@ export async function POST(req: Request) {
       },
     });
   }
-  return new Response(null, { status: 400 });
+  return new Response(null, { status: 200 });
 }

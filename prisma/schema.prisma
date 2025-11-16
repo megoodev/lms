@@ -15,16 +15,18 @@ datasource db {
 }
 
 model User {
-  id               String    @id
-  name             String
-  email            String
-  emailVerified    Boolean   @default(false)
-  image            String?
-  createdAt        DateTime  @default(now())
-  updatedAt        DateTime  @default(now()) @updatedAt
-  sessions         Session[]
-  accounts         Account[]
-  courses          Course[]
+  id             String           @id
+  name           String
+  email          String
+  emailVerified  Boolean          @default(false)
+  image          String?
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @default(now()) @updatedAt
+  sessions       Session[]
+  accounts       Account[]
+  courses        Course[]
+  lessonProgress LessonProgress[]
+
   stripeCustomerId String?
 
   role       String?
@@ -129,14 +131,17 @@ model Chapter {
 }
 
 model lesson {
-  id          String  @id @default(uuid())
-  title       String
-  description String?
-  videoKey    String?
-  thumbnilKey String?
-  position    Int
-  chapter     Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
-  chapterId   String
+  id             String           @id @default(uuid())
+  title          String
+  description    String?
+  videoKey       String?
+  thumbnilKey    String?
+  position       Int
+  chapter        Chapter          @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+  chapterId      String
+  lessonProgress LessonProgress[]
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
 }
 
 model Enrollment {
@@ -157,4 +162,18 @@ enum EnrollmentStatus {
   Active
   Pending
   Cancelled
+}
+
+model LessonProgress {
+  id        String  @id @default(uuid())
+  completed Boolean @default(false)
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  lesson    lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  lessonId  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, lessonId])
 }

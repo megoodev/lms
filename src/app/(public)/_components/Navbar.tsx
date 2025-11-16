@@ -23,7 +23,6 @@ const navigationLinks: NavigationProps[] = [
   { href: "/", label: "Home", active: true },
   { href: "/courses", label: "Courses" },
   { href: "/dashboard", label: "Dashboard" },
-  { href: "/admin", label: "Admin" },
 ];
 
 export default function Navbar() {

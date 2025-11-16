@@ -1,6 +1,6 @@
 "use client";
 
-import { IconCirclePlusFilled, type Icon } from "@tabler/icons-react";
+import { IconCirclePlusFilled, IconProps, type Icon } from "@tabler/icons-react";
 
 import {
   SidebarGroup,
@@ -10,6 +10,10 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { cn } from "@/lib/utils";
+import { buttonVariants } from "../ui/button";
+import { ForwardRefExoticComponent, RefAttributes } from "react";
 
 export function NavMain({
   items,
@@ -17,23 +21,39 @@ export function NavMain({
   items: {
     title: string;
     url: string;
-    icon?: Icon;
+    icon?: ForwardRefExoticComponent<IconProps & RefAttributes<Icon>>;
   }[];
 }) {
+  const pathname = usePathname();
   return (
     <SidebarGroup>
       <SidebarGroupContent className="flex flex-col gap-2">
         <SidebarMenu>
-          <SidebarMenuItem className="flex items-center gap-2">
+          <SidebarMenuItem className="flex items-center ">
             <SidebarMenuButton
               asChild
               tooltip="Quick Create"
-              className="bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground active:bg-primary/90 active:text-primary-foreground min-w-8 duration-200 ease-linear"
+              className="min-w-8 duration-200 ease-linear"
             >
-              <Link href={"/admin/courses/create"}>
-                <IconCirclePlusFilled />
-                <span>Quick Create</span>
-              </Link>
+              {pathname.startsWith("/admin") && (
+                <Link
+                  href={`/admin/courses/create`}
+                  className={cn(
+                    pathname === "/admin/courses/create" && "text-primary",
+                    "flex items-center gap-3 text-sm tracking-tight"
+                  )}
+                >
+                  <IconCirclePlusFilled
+                    className={cn(
+                      pathname === "/admin/courses/create" &&
+                        "text-destructive",
+                      "size-10"
+                    )}
+                  />
+
+                  <span>Quick Create</span>
+                </Link>
+              )}
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
@@ -41,8 +61,22 @@ export function NavMain({
           {items.map((item) => (
             <SidebarMenuItem key={item.title}>
               <SidebarMenuButton tooltip={item.title}>
-                {item.icon && <item.icon />}
-                <span>{item.title}</span>
+                <Link
+                  href={item.url}
+                  className={cn(
+                    pathname === item.url && "text-primary",
+                    "flex items-center gap-3 text-sm tracking-tight"
+                  )}
+                >
+                  {item.icon && (
+                    <item.icon
+                      className={cn(
+                        pathname === item.url && "text-destructive"
+                      )}
+                    />
+                  )}
+                  <span>{item.title}</span>
+                </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
           ))}

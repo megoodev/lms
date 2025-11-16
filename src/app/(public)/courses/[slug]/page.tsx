@@ -242,7 +242,7 @@ const slugRoute = async ({ params }: { params: Params }) => {
               </div>
               {isEnrolled ? (
                 <Link
-                  href="/dashbord"
+                  href={`/dashboard/${course.slug}`}
                   className={buttonVariants({ className: "w-full" })}
                 >
                   Watch Course

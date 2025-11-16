@@ -1,3 +1,4 @@
+"use client";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import {
@@ -6,59 +7,61 @@ import {
   CardDescription,
   CardTitle,
 } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
 import { Skeleton } from "@/components/ui/skeleton";
-import { PublicCourseType } from "@/data/course/get-all-courses";
-import { School, TimerIcon } from "lucide-react";
+import { EnrolledCoursesType } from "@/data/course/get-enrolled-courses";
+import { useCourseProgress } from "@/hooks/use-course-progress";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-const PublicCardCouese = ({ data }: { data: PublicCourseType }) => {
-  const thumbnailUrl = `https://${process.env.NEXT_PUBLIC_S3_BUCKET_NAME_IMAGES}/t3.storage.dev/${data.fileKey}`;
+const CourseProgressCard = ({ data }: { data: EnrolledCoursesType }) => {
+  const thumbnailUrl = `https://${process.env.NEXT_PUBLIC_S3_BUCKET_NAME_IMAGES}/t3.storage.dev/${data.course.fileKey}`;
+  const { completedLessons, totalLessons, progressPrecentage } =
+    useCourseProgress({ courseData: data.course });
   return (
     <Card className="relative py-0 gap-0 w-full group">
       <Badge variant="secondary" className="absolute top-2 right-2 z-10">
-        {data.level}
+        {data.course.level}
       </Badge>
       <Image src={thumbnailUrl} width={600} height={400} alt="thmbnail-url" />
       <CardContent className="p-4 space-y-2">
         <CardTitle className="text-2xl group-hover:text-destructive hover:text-white">
-          <Link href={`/courses/${data.slug}`}>{data.title}</Link>
+          <Link
+            href={`/courses/${data.course.slug}`}
+            className="hover:underline"
+          >
+            {data.course.title}
+          </Link>
         </CardTitle>
         <CardDescription className="text-muted-foreground line-clamp-2 text-sm">
-          {data.smallDescription}
+          {data.course.smallDescription}
         </CardDescription>
-
-        <div className="flex gap-2 items-center mb-3 ">
-          <div className="flex items-center gap-x-1">
-            <div className="flex items-center justify-center bg-destructive/10 rounded-lg gap-5 p-0.5">
-              <TimerIcon className="size-6 p-1 rounded-md text-primary " />
-            </div>
-            <p className="text-sm text-muted-foreground">{data.duration}h</p>
+        <div className="space-y-4 mt-5">
+          <div className="flex justify-between mb-1 text-sm">
+            <p>Progress:</p>
+            <p className="font-medium">{progressPrecentage}%</p>
           </div>
-
-          <div className="flex items-center gap-x-1">
-            <div className="flex items-center justify-center bg-destructive/10 rounded-lg gap-5 p-0.5">
-              <School className="size-6 p-1 rounded-md text-primary " />
-            </div>
-            <p className="text-sm text-muted-foreground">{data.level}</p>
-          </div>
+          <Progress value={progressPrecentage} className="h-1.5" />
+          <p className="text-xs text-muted-foreground mt-1">
+            {completedLessons} of {totalLessons} lessons completed
+          </p>
         </div>
         <Link
           className={buttonVariants({
             variant: "outline",
             className: "w-full",
           })}
-          href={`/courses/${data.slug}`}
+          href={`/dashboard/${data.course.slug}`}
         >
-          Show more
+          Learning Now!
         </Link>
       </CardContent>
     </Card>
   );
 };
 
-export default PublicCardCouese;
+export default CourseProgressCard;
 
 export const PublicCourseCardSkeleton = () => {
   return (

@@ -28,7 +28,7 @@ export async function EditLesson(values: LessonSchemaType): Promise<ApiResponse>
         description: result.data.description
       }
     })
-    revalidatePath(`/admin/courses/${result.data.cousreId}/${result.data.chapterId}/${result.data.id}`)
+    revalidatePath(`/admin/courses/${result.data.courseId}/${result.data.chapterId}/${result.data.id}`)
     return {
       status: 'success',
       message: 'Lesson edited successfully'
