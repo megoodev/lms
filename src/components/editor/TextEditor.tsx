@@ -5,7 +5,16 @@ import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import TextAlign from "@tiptap/extension-text-align";
 
-const TextEditor = ({ field }: { field: any }) => {
+interface FieldProps {
+  onChange: (value: string) => void;
+  value?: string;
+  name?: string;
+}
+
+interface TextEditorProps {
+  field: FieldProps;
+}
+const TextEditor = ({ field }: TextEditorProps) => {
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -20,7 +29,7 @@ const TextEditor = ({ field }: { field: any }) => {
           "min-h-[300px] p-4 focus:outline-none prose prose-sm sm:prose lg:prose-lg xl:prose-xl dark:prose-invert !w-full !max-w-none",
       },
     },
-    content: '<p>Hello world 🫡</p>',
+    content: "<p>Hello world 🫡</p>",
     onUpdate: ({ editor }) => {
       field.onChange(JSON.stringify(editor.getJSON()));
     },

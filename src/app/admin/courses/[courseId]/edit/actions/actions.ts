@@ -36,7 +36,7 @@ export async function EditCourse(
       status: "success",
       message: "edit course successfully",
     };
-  } catch (error) {
+  } catch  {
     return {
       status: "error",
       message: "Faield... edit course",
@@ -270,7 +270,7 @@ export async function deleteChapter(
       message: "chapter deleted successfully",
       status: "success",
     };
-  } catch (error) {
+  } catch  {
     return {
       status: "error",
       message: "Failed to deleted chapter",
@@ -349,7 +349,7 @@ export async function deleteLesson({
       message: "Lesson deleted successfully",
       status: "success",
     };
-  } catch (error) {
+  } catch  {
     return {
       status: "error",
       message: "Failed to deleted chapter",

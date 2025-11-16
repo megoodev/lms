@@ -9,6 +9,7 @@ import {
 
 import slugify from "slugify";
 import { useForm } from "react-hook-form";
+import type { Resolver } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
@@ -51,7 +52,7 @@ const CourseCreationPage = () => {
   const [pending, startTransition] = useTransition();
   const { fireConfetti } = useConfetti();
   const form = useForm<CourseSChemaType>({
-    resolver: zodResolver(courseSchema),
+    resolver: zodResolver(courseSchema) as Resolver<CourseSChemaType>,
     mode: "all",
     defaultValues: {
       title: "",

@@ -1,13 +1,4 @@
-import { Button, buttonVariants } from "@/components/ui/button";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible";
 import { GetCourseSidebarData } from "@/data/course/get-course-sidebar-data";
-import { IconPlayerPlay } from "@tabler/icons-react";
-import { ChevronDown, Play } from "lucide-react";
-import Link from "next/link";
 import { ReactNode } from "react";
 import CourseSidebar from "./_Components/CourseSidebar";
 
@@ -22,7 +13,7 @@ export default async function layoutSlug({ children, params }: iAppProps) {
   return (
     <div className="flex flex-1">
       <div className="w-80  border-r border-border shrink-0 min-h-screen">
-        <CourseSidebar course={course}/>
+        <CourseSidebar course={course} />
       </div>
       <div className="flex-1 overflow-hidden">{children}</div>
     </div>

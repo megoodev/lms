@@ -1,4 +1,3 @@
-import { description } from "@/components/sidebar/chart-area-interactive";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";

@@ -38,7 +38,7 @@ const Uploader = ({ onChange, value, typeAccept }: iAppProps) => {
     key: value,
   });
 
-  const uploadFile = async (file: File) => {
+  const uploadFile = useCallback(async (file: File) => {
     setFileState((prev) => ({
       ...prev,
       uploading: true,
@@ -112,7 +112,7 @@ const Uploader = ({ onChange, value, typeAccept }: iAppProps) => {
         xhr.setRequestHeader("Content-Type", file.type);
         xhr.send(file);
       });
-    } catch (error) {
+    } catch {
       toast.error("somthing went wrong");
       setFileState((prev) => ({
         ...prev,
@@ -121,22 +121,25 @@ const Uploader = ({ onChange, value, typeAccept }: iAppProps) => {
         uploading: false,
       }));
     }
-  };
+  }, [onChange]);
 
-  const onDrop = useCallback((acceptedFiles: File[]) => {
-    const file = acceptedFiles[0];
-    setFileState({
-      error: false,
-      file: file,
-      objectUrl: URL.createObjectURL(file),
-      id: crypto.randomUUID(),
-      progress: 0,
-      uploading: false,
-      isDeleting: false,
-      fileType: typeAccept === "video" ? "video" : "image",
-    });
-    uploadFile(file);
-  }, []);
+  const onDrop = useCallback(
+    (acceptedFiles: File[]) => {
+      const file = acceptedFiles[0];
+      setFileState({
+        error: false,
+        file: file,
+        objectUrl: URL.createObjectURL(file),
+        id: crypto.randomUUID(),
+        progress: 0,
+        uploading: false,
+        isDeleting: false,
+        fileType: typeAccept === "video" ? "video" : "image",
+      });
+      uploadFile(file);
+    },
+    [typeAccept, uploadFile]
+  );
 
   const rejrctedFile = useCallback((fileRejection: FileRejection[]) => {
     if (fileRejection.length > 0) {

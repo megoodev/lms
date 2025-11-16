@@ -1,6 +1,6 @@
 import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { ArrowLeft, CheckIcon, XIcon } from "lucide-react";
+import { ArrowLeft, XIcon } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 

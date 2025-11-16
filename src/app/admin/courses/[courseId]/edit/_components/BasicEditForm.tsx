@@ -9,6 +9,7 @@ import {
 
 import slugify from "slugify";
 import { useForm } from "react-hook-form";
+import type { Resolver } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import {
@@ -45,17 +46,17 @@ import { EditCourse } from "../actions/actions";
 const BasicEditForm = ({ course }: { course: singelurCourseType }) => {
   const [pending, startTransition] = useTransition();
   const form = useForm<CourseSChemaType>({
-    resolver: zodResolver(courseSchema),
-    mode: "onSubmit",
+    resolver: zodResolver(courseSchema) as Resolver<CourseSChemaType>,
+    mode: "all",
     defaultValues: {
       title: course.title,
       category: course.category as CourseSChemaType["category"],
       description: course.description,
-      duration: course.duration,
-      level: course.level,
+      duration: Number(course.duration), // Convert to number
+      level: course.level as CourseSChemaType["level"],
       fileKey: course.fileKey,
-      price: course.price,
-      status: course.status,
+      price: Number(course.price), // Convert to number
+      status: course.status as CourseSChemaType["status"],
       slug: course.slug,
       smallDescription: course.smallDescription,
     },
@@ -100,7 +101,7 @@ const BasicEditForm = ({ course }: { course: singelurCourseType }) => {
               <FormItem className="w-full">
                 <FormLabel>Slug</FormLabel>
                 <FormControl>
-                  <Input placeholder="Slug" value={course.slug} {...field} />
+                  <Input placeholder="Slug" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -156,7 +157,7 @@ const BasicEditForm = ({ course }: { course: singelurCourseType }) => {
             <FormItem>
               <FormLabel>File Key</FormLabel>
               <FormControl>
-                <Uploader onChange={field.onChange} value={field.value} />
+                <Uploader typeAccept="image" onChange={field.onChange} value={field.value} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -170,7 +171,13 @@ const BasicEditForm = ({ course }: { course: singelurCourseType }) => {
               <FormItem>
                 <FormLabel>Price</FormLabel>
                 <FormControl>
-                  <Input type="number" placeholder="Price" {...field} />
+                  <Input
+                    type="number"
+                    placeholder="Price"
+                    {...field}
+                    onChange={(e) => field.onChange(Number(e.target.value))}
+                    value={field.value || ""}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -183,7 +190,13 @@ const BasicEditForm = ({ course }: { course: singelurCourseType }) => {
               <FormItem>
                 <FormLabel>Duration</FormLabel>
                 <FormControl>
-                  <Input {...field} placeholder="Duration" type="number" />
+                  <Input
+                    {...field}
+                    placeholder="Duration"
+                    type="number"
+                    onChange={(e) => field.onChange(Number(e.target.value))}
+                    value={field.value || ""}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>

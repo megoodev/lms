@@ -4,7 +4,6 @@ import { cn } from "@/lib/utils";
 import {
   CloudUploadIcon,
   ImageIcon,
-  Loader2,
   XIcon,
 } from "lucide-react";
 import Image from "next/image";

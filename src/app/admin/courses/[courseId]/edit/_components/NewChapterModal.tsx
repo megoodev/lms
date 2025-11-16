@@ -26,7 +26,6 @@ import { createChapter } from "../actions/actions";
 import { useState, useTransition } from "react";
 import { tryCatch } from "@/hooks/trycatch";
 import { toast } from "sonner";
-import { success } from "zod";
 
 interface NewChapterModalProps {
   courseId: string;

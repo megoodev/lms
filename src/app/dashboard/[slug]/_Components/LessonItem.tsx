@@ -6,7 +6,7 @@ import Link from "next/link";
 interface iAppProps {
   slug: string;
   isActive?: boolean;
-  completed: Boolean;
+  completed: boolean;
   lesson: {
     id: string;
     title: string;

@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { vi } from "zod/v4/locales";
 export const levelCourse = ["Beginner", "Intermeduate", "Advanced"] as const;
 export const statusCourse = ["Draft", "Published", "Archived"] as const;
 export const CourseCategories = [

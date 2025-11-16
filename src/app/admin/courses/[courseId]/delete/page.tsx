@@ -1,5 +1,4 @@
 "use client";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Card,
@@ -10,7 +9,6 @@ import {
 } from "@/components/ui/card";
 import Link from "next/link";
 import { useTransition } from "react";
-import { useForm } from "react-hook-form";
 import { tryCatch } from "@/hooks/trycatch";
 import { toast } from "sonner";
 import { DeleteCourse } from "./actions/action";
@@ -50,8 +48,8 @@ const DeleteCourseRoute = () => {
           >
             Cancel
           </Link>
-          <Button variant="destructive" onClick={onSubmit}>
-            Delete
+          <Button variant="destructive" disabled={pending} onClick={onSubmit}>
+            {pending ? 'Deleteing...' : 'Delete'}
           </Button>
         </CardContent>
       </Card>

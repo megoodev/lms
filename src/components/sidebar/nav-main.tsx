@@ -1,6 +1,6 @@
 "use client";
 
-import { IconCirclePlusFilled, IconProps, type Icon } from "@tabler/icons-react";
+import { IconCirclePlusFilled } from "@tabler/icons-react";
 
 import {
   SidebarGroup,
@@ -12,18 +12,9 @@ import {
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { buttonVariants } from "../ui/button";
-import { ForwardRefExoticComponent, RefAttributes } from "react";
+import React from "react";
 
-export function NavMain({
-  items,
-}: {
-  items: {
-    title: string;
-    url: string;
-    icon?: ForwardRefExoticComponent<IconProps & RefAttributes<Icon>>;
-  }[];
-}) {
+export function NavMain({ items }: { items: { title: string; url: string; icon?: React.ElementType }[] }) {
   const pathname = usePathname();
   return (
     <SidebarGroup>
@@ -46,7 +37,7 @@ export function NavMain({
                   <IconCirclePlusFilled
                     className={cn(
                       pathname === "/admin/courses/create" &&
-                        "text-destructive",
+                      "text-destructive",
                       "size-10"
                     )}
                   />
