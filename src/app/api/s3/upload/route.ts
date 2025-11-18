@@ -3,7 +3,7 @@ import { PutObjectCommand } from "@aws-sdk/client-s3";
 import { NextResponse } from "next/server";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { z } from "zod";
-import arcjet, { detectBot, fixedWindow } from "@/lib/arcjet";
+import arcjet, { fixedWindow } from "@/lib/arcjet";
 
 import { requireAdmin } from "@/data/admin/require-admin";
 const bodySchema = z.object({
@@ -13,25 +13,10 @@ const bodySchema = z.object({
   isImage: z.boolean(),
 });
 
-const aj = arcjet
-  .withRule(
-    fixedWindow({
-      mode: "LIVE",
-      window: "1m",
-      max: 5,
-    })
-  );
+
 export async function POST(request: Request) {
   const session = await requireAdmin();
   try {
-
-    const decision = await aj.protect(request, {
-      fingerPrint: session.user.id,
-    });
-    if (decision.isDenied()) {
-      return NextResponse.json({ message: "dudde not good" }, { status: 429 });
-    }
-
     const body = await request.json();
     const validation = bodySchema.safeParse(body);
     if (!validation.success) {
