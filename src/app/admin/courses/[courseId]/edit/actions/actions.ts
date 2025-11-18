@@ -11,12 +11,31 @@ import {
 import prisma from "@/lib/db";
 import { ApiResponse } from "@/lib/types";
 import { revalidatePath } from "next/cache";
+import { fixedWindow, request } from "@arcjet/next";
+import arcjet from "@/lib/arcjet";
+const aj = arcjet.withRule(
+  fixedWindow({
+    mode: "LIVE",
+    window: "1m",
+    max: 5,
+  })
+);
 export async function EditCourse(
   data: CourseSChemaType,
   id: string
 ): Promise<ApiResponse> {
-  await requireAdmin();
+  const session = await requireAdmin();
   try {
+    const req = await request();
+    const decision = await aj.protect(req, {
+      fingerPrint: session.user.id,
+    });
+    if (decision.isDenied()) {
+      return {
+        status: "error",
+        message: "You have been blocked",
+      };
+    }
     const validation = courseSchema.safeParse(data);
     if (!validation.success) {
       return {
@@ -36,7 +55,7 @@ export async function EditCourse(
       status: "success",
       message: "edit course successfully",
     };
-  } catch  {
+  } catch {
     return {
       status: "error",
       message: "Faield... edit course",
@@ -47,8 +66,18 @@ export async function ReordingChapters(
   courseId: string,
   chapters: { id: string; position: number }[]
 ): Promise<ApiResponse> {
-  await requireAdmin();
+  const session = await requireAdmin();
   try {
+    const req = await request();
+    const decision = await aj.protect(req, {
+      fingerPrint: session.user.id,
+    });
+    if (decision.isDenied()) {
+      return {
+        status: "error",
+        message: "You have been blocked",
+      };
+    }
     const updates = chapters.map((chapter) =>
       prisma.chapter.update({
         where: {
@@ -79,8 +108,18 @@ export async function reorderLessons(
   lessons: { id: string; position: number }[],
   courseId: string
 ): Promise<ApiResponse> {
-  await requireAdmin();
+  const session = await requireAdmin();
   try {
+    const req = await request();
+    const decision = await aj.protect(req, {
+      fingerPrint: session.user.id,
+    });
+    if (decision.isDenied()) {
+      return {
+        status: "error",
+        message: "You have been blocked",
+      };
+    }
     if (!lessons || lessons.length === 0) {
       return {
         status: "error",
@@ -115,8 +154,18 @@ export async function reorderLessons(
 export async function createChapter(
   values: ChapterSchemaType
 ): Promise<ApiResponse> {
-  await requireAdmin();
+  const session = await requireAdmin();
   try {
+    const req = await request();
+    const decision = await aj.protect(req, {
+      fingerPrint: session.user.id,
+    });
+    if (decision.isDenied()) {
+      return {
+        status: "error",
+        message: "You have been blocked",
+      };
+    }
     const result = chapterSchema.safeParse(values);
     if (!result.success) {
       return {
@@ -161,8 +210,18 @@ export async function createChapter(
 export async function createLesson(
   values: LessonSchemaType
 ): Promise<ApiResponse> {
-  await requireAdmin();
+  const session = await requireAdmin();
   try {
+    const req = await request();
+    const decision = await aj.protect(req, {
+      fingerPrint: session.user.id,
+    });
+    if (decision.isDenied()) {
+      return {
+        status: "error",
+        message: "You have been blocked",
+      };
+    }
     const result = lessonSchema.safeParse(values);
     if (!result.success) {
       return {
@@ -208,74 +267,84 @@ export async function deleteChapter(
   chapterId: string,
   courseId: string
 ): Promise<ApiResponse> {
-  await requireAdmin();
-  try {
-    const courseWithChapters = await prisma.course.findUnique({
-      where: {
-        id: courseId,
-      },
-      select: {
-        chapters: {
-          select: {
-            id: true,
-            position: true,
-          },
-          orderBy: {
-            position: "asc",
-          },
-        },
-      },
-    });
-    if (!courseWithChapters) {
-      return {
-        status: "error",
-        message: "Chapter not found",
-      };
-    }
-    const lessonToDelte = courseWithChapters?.chapters.find(
-      (chapter) => chapter.id === chapterId
-    );
-    if (!lessonToDelte) {
-      return {
-        status: "error",
-        message: "chapter not found in the chapter",
-      };
-    }
-
-    const remaininglessons = courseWithChapters?.chapters.filter(
-      (chapter) => chapter.id !== chapterId
-    );
-
-    const updates = remaininglessons?.map((chapter, index) => {
-      return prisma.chapter.update({
-        where: {
-          id: chapter.id,
-        },
-        data: {
-          position: index + 1,
-        },
-      });
-    });
-    await prisma.$transaction([
-      ...updates,
-      prisma.chapter.delete({
-        where: {
-          id: chapterId,
-          courseId: courseId,
-        },
-      }),
-    ]);
-    revalidatePath(`/admin/courses/${courseId}/edit`);
-    return {
-      message: "chapter deleted successfully",
-      status: "success",
-    };
-  } catch  {
+const session = await requireAdmin();
+try {
+  const req = await request();
+  const decision = await aj.protect(req, {
+    fingerPrint: session.user.id,
+  });
+  if (decision.isDenied()) {
     return {
       status: "error",
-      message: "Failed to deleted chapter",
+      message: "You have been blocked",
     };
   }
+  const courseWithChapters = await prisma.course.findUnique({
+    where: {
+      id: courseId,
+    },
+    select: {
+      chapters: {
+        select: {
+          id: true,
+          position: true,
+        },
+        orderBy: {
+          position: "asc",
+        },
+      },
+    },
+  });
+  if (!courseWithChapters) {
+    return {
+      status: "error",
+      message: "Chapter not found",
+    };
+  }
+  const lessonToDelte = courseWithChapters?.chapters.find(
+    (chapter) => chapter.id === chapterId
+  );
+  if (!lessonToDelte) {
+    return {
+      status: "error",
+      message: "chapter not found in the chapter",
+    };
+  }
+
+  const remaininglessons = courseWithChapters?.chapters.filter(
+    (chapter) => chapter.id !== chapterId
+  );
+
+  const updates = remaininglessons?.map((chapter, index) => {
+    return prisma.chapter.update({
+      where: {
+        id: chapter.id,
+      },
+      data: {
+        position: index + 1,
+      },
+    });
+  });
+  await prisma.$transaction([
+    ...updates,
+    prisma.chapter.delete({
+      where: {
+        id: chapterId,
+        courseId: courseId,
+      },
+    }),
+  ]);
+  revalidatePath(`/admin/courses/${courseId}/edit`);
+  return {
+    message: "chapter deleted successfully",
+    status: "success",
+  };
+} catch {
+  return {
+    status: "error",
+    message: "Failed to deleted chapter",
+  };
+}
 }
 
 export async function deleteLesson({
@@ -287,8 +356,18 @@ export async function deleteLesson({
   chapterId: string;
   courseId: string;
 }): Promise<ApiResponse> {
-  await requireAdmin();
+  const session = await requireAdmin();
   try {
+    const req = await request();
+    const decision = await aj.protect(req, {
+      fingerPrint: session.user.id,
+    });
+    if (decision.isDenied()) {
+      return {
+        status: "error",
+        message: "You have been blocked",
+      };
+    }
     const chapterWithLessons = await prisma.chapter.findUnique({
       where: {
         id: chapterId,
@@ -349,7 +428,7 @@ export async function deleteLesson({
       message: "Lesson deleted successfully",
       status: "success",
     };
-  } catch  {
+  } catch {
     return {
       status: "error",
       message: "Failed to deleted chapter",

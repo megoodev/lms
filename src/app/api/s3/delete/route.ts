@@ -6,12 +6,6 @@ import { DeleteObjectCommand } from "@aws-sdk/client-s3";
 import { NextResponse } from "next/server";
 const aj = arcjet
   .withRule(
-    detectBot({
-      mode: "LIVE",
-      allow: [],
-    })
-  )
-  .withRule(
     fixedWindow({
       mode: "LIVE",
       window: "1m",

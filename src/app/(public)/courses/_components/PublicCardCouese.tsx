@@ -14,7 +14,7 @@ import Link from "next/link";
 import React from "react";
 
 const PublicCardCouese = ({ data }: { data: PublicCourseType }) => {
-  const thumbnailUrl = `https://${process.env.NEXT_PUBLIC_S3_BUCKET_NAME_IMAGES}/t3.storage.dev/${data.fileKey}`;
+  const thumbnailUrl = `https://${process.env.NEXT_PUBLIC_S3_BUCKET_NAME_IMAGES}.t3.storage.dev/${data.fileKey}`;
   return (
     <Card className="relative py-0 gap-0 w-full group">
       <Badge variant="secondary" className="absolute top-2 right-2 z-10">

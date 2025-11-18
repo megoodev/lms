@@ -18,8 +18,8 @@ const aj = arcjet.withRule(
 export async function CreateCourse(
   values: CourseSChemaType
 ): Promise<ApiResponse> {
+  const session = await requireAdmin();
   try {
-    const session = await requireAdmin();
     const req = await request();
     const decision = await aj.protect(req, {
       fingerPrint: session?.user.id,
