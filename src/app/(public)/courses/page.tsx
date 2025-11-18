@@ -5,7 +5,6 @@ import { Suspense } from "react";
 import { getAllcourses } from "@/data/course/get-all-courses";
 
 
-
 export default async function PublicCourseRoute() {
   return (
     <div className="mt-2">
