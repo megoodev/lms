@@ -23,7 +23,7 @@ interface UploaderState {
 }
 interface iAppProps {
   onChange: (key: string) => void;
-  value: string | undefined;
+  value: string;
   typeAccept: "image" | "video";
 }
 const Uploader = ({ onChange, value, typeAccept }: iAppProps) => {

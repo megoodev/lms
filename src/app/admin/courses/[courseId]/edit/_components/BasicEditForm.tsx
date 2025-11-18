@@ -157,7 +157,7 @@ const BasicEditForm = ({ course }: { course: singelurCourseType }) => {
             <FormItem>
               <FormLabel>File Key</FormLabel>
               <FormControl>
-                <Uploader typeAccept="image" onChange={field.onChange} value={field.value} />
+                <Uploader onChange={field.onChange} value={field.value} typeAccept="image" />
               </FormControl>
               <FormMessage />
             </FormItem>
