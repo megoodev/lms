@@ -41,6 +41,9 @@ export const RenderErrorState = () => {
       </div>
       <p className="text-base font-semibold">Upload Failed</p>
       <p className="text-xs mt-1 text-muted-foreground">Something went wrong</p>
+      <Button variant="ghost" className="mt-2 p-0">
+        Try Again
+      </Button>
     </div>
   );
 };
@@ -55,6 +58,7 @@ export const RenderUploadingState = ({ progress }: { progress: number }) => {
     </div>
   );
 };
+
 export const RenderUploadedState = ({
   url,
   isDeleting,
@@ -77,8 +81,8 @@ export const RenderUploadedState = ({
       >
         <XIcon className="size-4" />
       </Button>
-      <div className=" relative flex items-center mx-auto justify-center size-24 md:size-48 lg:size-96">
-        {isImage ? (<Image src={url} alt={url} fill className="object-contain" />): ( <video src={url} controls className="w-full h-full object-contain"/>)}
+      <div className="relative flex items-center mx-auto justify-center max-h-[100%] max-w-[100%] h-48 w-48">
+        {isImage ? (<Image src={url} alt={url} fill className="object-contain" />): ( <video src={url} className="w-full h-full object-contain"/>)}
         
       </div>
     </div>

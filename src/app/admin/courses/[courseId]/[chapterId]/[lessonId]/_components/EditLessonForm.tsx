@@ -55,7 +55,7 @@ const EditLessonForm = ({
       }
       if (data.status === "success") {
         toast.success(data.message);
-        redirect(`/admin/courses/${courseId}`);
+        redirect(`/admin/courses/${courseId}/edit`);
       } else if (data.status === "error") {
         toast.error(data.message);
       }
