@@ -40,7 +40,7 @@ const ReanderCourse = async () => {
       {data.length === 0 ? (
         <EmptyState
           buttonText="Create New Course"
-          description="am not know"
+          description="I am not know"
           title="not found any course"
           href={"/admin/courses/create"}
         />

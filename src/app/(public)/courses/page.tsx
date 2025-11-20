@@ -4,10 +4,14 @@ import PublicCardCouese, {
 import { Suspense } from "react";
 import { getAllcourses } from "@/data/course/get-all-courses";
 
+export const metadata = {
+  title: "Courses — LMS",
+  description: "Explore available courses across categories and skill levels.",
+};
 
-export default async function PublicCourseRoute() {
+export default function PublicCourseRoute() {
   return (
-    <div className="mt-2">
+    <div className="mt-2 px-2">
       <div className="flex flex-col space-y-2 mb-10">
         <h1 className="text-3xl md:text-4xl font-bold">Explore Courses</h1>
         <p className=" text-muted-foreground">
@@ -22,14 +26,10 @@ export default async function PublicCourseRoute() {
   );
 }
 
-export const metadata = {
-  title: "Courses — LMS",
-  description: "Explore available courses across categories and skill levels.",
-};
+
 
 const RenderCourse = async () => {
   const data = await getAllcourses();
-
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7 mt-3">
       {data.map((course) => (
