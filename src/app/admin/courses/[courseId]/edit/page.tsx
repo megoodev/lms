@@ -59,8 +59,8 @@ const page = async ({ params }: { params: Params }) => {
 
 export default page;
 
-export async function generateMetadata({ params }: { params: { courseId: string } }) {
-  const { courseId } = params;
+export async function generateMetadata({ params }: { params: Params }) {
+  const { courseId } = await params;
   const data = await getSingelurCourse(courseId);
   return {
     title: `Edit ${data.title} — LMS`,

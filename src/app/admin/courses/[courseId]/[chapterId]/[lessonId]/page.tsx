@@ -29,8 +29,9 @@ const EditLessonRoute = async ({ params }: EditLessonRouteProps) => {
 
 export default EditLessonRoute;
 
-export async function generateMetadata({ params }: { params: { lessonId: string } }) {
-  const { lessonId } = params;
+type Params = Promise<{ lessonId: string }>;
+export async function generateMetadata({ params }: { params: Params }) {
+  const { lessonId } = await params;
   const data = await adminGetLesson(lessonId);
   return {
     title: `Edit Lesson — ${data.title} — Admin — LMS`,
