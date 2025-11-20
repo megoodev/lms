@@ -21,8 +21,8 @@ async function LessonContentData({ lessonId }: { lessonId: string }) {
   return <CourseContent data={data} />;
 }
 
-export async function generateMetadata({ params }: { params: { lessonId: string } }) {
-  const { lessonId } = params;
+export async function generateMetadata({ params }: iAppProps) {
+  const { lessonId } = await params;
   const data = await getLessonContent(lessonId);
   return {
     title: `${data.title} — Lesson — LMS`,
