@@ -17,8 +17,8 @@ const paymentCanceldRoute = () => {
             <p className="text-sm mt-2 text-muted-foreground tracking-tight text-balance">
               No worries, you wont to charged. Please try again!
             </p>
-            <Link href="/" className={buttonVariants({ className: "w-full mt-3"  })}>
-              <ArrowLeft className="size-4"/>
+            <Link href="/" className={buttonVariants({ className: "w-full mt-3" })}>
+              <ArrowLeft className="size-4" />
               Go to homePage
             </Link>
           </div>

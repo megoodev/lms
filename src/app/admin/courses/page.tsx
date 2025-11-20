@@ -8,7 +8,7 @@ import EmptyState from "./_components/EmptyState";
 import { Suspense } from "react";
 
 const AdminCoursesRoute = () => {
-  
+
   return (
     <>
       <div className="flex items-center justify-between my-5">

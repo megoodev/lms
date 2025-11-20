@@ -11,7 +11,7 @@ import getSingelurCourse from "../../../../../data/admin/get-singlur-course";
 import CourseStrucutre from "./_components/CourseStrucutre";
 
 type Params = Promise<{ courseId: string }>;
-const page = async ({ params }: {params: Params}) => {
+const page = async ({ params }: { params: Params }) => {
   const { courseId } = await params;
 
   const data = await getSingelurCourse(courseId);
