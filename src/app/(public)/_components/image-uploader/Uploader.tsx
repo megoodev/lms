@@ -165,7 +165,7 @@ const Uploader = ({ onChange, value, typeAccept }: iAppProps) => {
     accept: typeAccept === "video" ? { "video/*": [] } : { "image/*": [] },
     maxFiles: 1,
     multiple: false,
-    maxSize: typeAccept === "video" ? 5000 * 1024 * 1024 : 5 * 1024 * 1024,
+    maxSize: typeAccept === "video" ? (5000 * 1024 * 1024) : (5 * 1024 * 1024),
     onDropRejected: rejrctedFile,
     disabled: fileState.uploading || !!fileState.objectUrl,
   });

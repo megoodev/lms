@@ -20,6 +20,7 @@ import { EditLesson } from "../actions/action";
 import { tryCatch } from "@/hooks/trycatch";
 import { toast } from "sonner";
 import { Spinner } from "@/components/ui/spinner";
+import { redirect } from "next/navigation";
 
 const EditLessonForm = ({
   data,
@@ -54,6 +55,7 @@ const EditLessonForm = ({
       }
       if (data.status === "success") {
         toast.success(data.message);
+        redirect(`/admin/courses/${courseId}`);
       } else if (data.status === "error") {
         toast.error(data.message);
       }
