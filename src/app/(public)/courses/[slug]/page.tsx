@@ -264,3 +264,12 @@ const slugRoute = async ({ params }: { params: Params }) => {
 
 export default slugRoute;
 
+export async function generateMetadata({ params }: { params: { slug: string } }) {
+  const { slug } = params;
+  const course = await getIndividualCourse(slug || "");
+  return {
+    title: `${course.title} — LMS`,
+    description: course.smallDescription || "",
+  };
+}
+

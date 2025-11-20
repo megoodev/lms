@@ -20,3 +20,12 @@ async function LessonContentData({ lessonId }: { lessonId: string }) {
   const data = await getLessonContent(lessonId);
   return <CourseContent data={data} />;
 }
+
+export async function generateMetadata({ params }: { params: { lessonId: string } }) {
+  const { lessonId } = params;
+  const data = await getLessonContent(lessonId);
+  return {
+    title: `${data.title} — Lesson — LMS`,
+    description: data.description ?? "",
+  };
+}

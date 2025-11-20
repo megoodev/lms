@@ -5,3 +5,8 @@ const paymentSuccessRoute = () => {
 };
 
 export default paymentSuccessRoute;
+
+export const metadata = {
+  title: "Payment Success — LMS",
+  description: "Your payment was processed successfully. Thank you!",
+};

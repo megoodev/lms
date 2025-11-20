@@ -28,6 +28,11 @@ const AdminCoursesRoute = () => {
 
 export default AdminCoursesRoute;
 
+export const metadata = {
+  title: "Admin — Courses — LMS",
+  description: "Manage your courses: create, edit, and organize course content.",
+};
+
 const ReanderCourse = async () => {
   const data = await adminGetCourses();
   return (

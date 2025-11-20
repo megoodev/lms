@@ -58,3 +58,12 @@ const page = async ({ params }: {params: Params}) => {
 };
 
 export default page;
+
+export async function generateMetadata({ params }: { params: { courseId: string } }) {
+  const { courseId } = params;
+  const data = await getSingelurCourse(courseId);
+  return {
+    title: `Edit ${data.title} — LMS`,
+    description: `Edit course ${data.title}`,
+  };
+}

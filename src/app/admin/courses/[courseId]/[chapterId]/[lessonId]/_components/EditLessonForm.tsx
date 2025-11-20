@@ -100,7 +100,7 @@ const EditLessonForm = ({
                 <Uploader
                   typeAccept="image"
                   onChange={field.onChange}
-                  value={field.value}
+                  value={field.value as string}
                 />
               </FormControl>
               <FormMessage />
@@ -117,7 +117,7 @@ const EditLessonForm = ({
                 <Uploader
                   typeAccept="video"
                   onChange={field.onChange}
-                  value={field.value}
+                  value={field.value as string}
                 />
               </FormControl>
               <FormMessage />

@@ -332,3 +332,4 @@ const CourseCreationPage = () => {
 };
 
 export default CourseCreationPage;
+

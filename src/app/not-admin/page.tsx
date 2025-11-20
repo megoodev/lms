@@ -40,3 +40,8 @@ const NotAdminPAge = () => {
 };
 
 export default NotAdminPAge;
+
+export const metadata = {
+  title: "Access Restricted — LMS",
+  description: "You do not have the required permissions to access this page.",
+};

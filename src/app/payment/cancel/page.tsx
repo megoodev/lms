@@ -29,3 +29,8 @@ const paymentCanceldRoute = () => {
 };
 
 export default paymentCanceldRoute;
+
+export const metadata = {
+  title: "Payment Cancelled — LMS",
+  description: "Your payment was cancelled. You were not charged.",
+};

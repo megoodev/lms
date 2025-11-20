@@ -72,3 +72,8 @@ export default function Home() {
     </>
   );
 }
+
+export const metadata = {
+  title: "LMS — Home",
+  description: "Discover courses and start learning with LMS.",
+};

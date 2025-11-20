@@ -19,3 +19,12 @@ const DashboardSulgPage = async ({ params }: iAppProps) => {
 };
 
 export default DashboardSulgPage;
+
+export async function generateMetadata({ params }: { params: { slug: string } }) {
+  const { slug } = params;
+  const course = await GetCourseSidebarData(slug);
+  return {
+    title: `Dashboard — ${course.title} — LMS`,
+    description: `Course dashboard for ${course.title}`,
+  };
+}

@@ -121,7 +121,7 @@ const Uploader = ({ onChange, value, typeAccept }: iAppProps) => {
         uploading: false,
       }));
     }
-  }, [onChange]);
+  }, []);
 
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {

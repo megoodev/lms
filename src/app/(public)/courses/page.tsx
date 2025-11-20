@@ -22,6 +22,11 @@ export default async function PublicCourseRoute() {
   );
 }
 
+export const metadata = {
+  title: "Courses — LMS",
+  description: "Explore available courses across categories and skill levels.",
+};
+
 const RenderCourse = async () => {
   const data = await getAllcourses();
 

@@ -3,9 +3,6 @@ import { PutObjectCommand } from "@aws-sdk/client-s3";
 import { NextResponse } from "next/server";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { z } from "zod";
-import arcjet, { fixedWindow } from "@/lib/arcjet";
-
-import { requireAdmin } from "@/data/admin/require-admin";
 const bodySchema = z.object({
   fileName: z.string().min(1, { message: "File name is required" }),
   contentType: z.string().min(1, { message: "Content type is required" }),
@@ -15,8 +12,8 @@ const bodySchema = z.object({
 
 
 export async function POST(request: Request) {
-  const session = await requireAdmin();
   try {
+
     const body = await request.json();
     const validation = bodySchema.safeParse(body);
     if (!validation.success) {

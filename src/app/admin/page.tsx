@@ -11,3 +11,8 @@ export default function Page() {
     </>
   );
 }
+
+export const metadata = {
+  title: "Admin Dashboard — LMS",
+  description: "Administrator dashboard for managing courses and analytics.",
+};
