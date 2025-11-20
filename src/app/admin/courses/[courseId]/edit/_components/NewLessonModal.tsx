@@ -100,7 +100,7 @@ const NewLessonModal = ({ courseId, chapterId }: NewLessonModalProps) => {
                 <DialogClose>
                   <Button variant="outline">Cancel</Button>
                 </DialogClose>
-                <Button type="submit" disabled={pending}>
+                <Button type="submit" className="w-full md:w-fit" disabled={pending}>
                   {pending ? "Creating..." : "Create"}
                 </Button>
               </DialogFooter>

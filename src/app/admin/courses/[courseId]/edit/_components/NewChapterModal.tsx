@@ -6,6 +6,7 @@ import {
   DialogContent,
   DialogTitle,
   DialogDescription,
+  DialogFooter,
 } from "@/components/ui/dialog";
 import { PlusIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
@@ -20,7 +21,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { AlertDialogFooter } from "@/components/ui/alert-dialog";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { createChapter } from "../actions/actions";
 import { useState, useTransition } from "react";
@@ -94,14 +94,14 @@ const NewChapterModal = ({ courseId }: NewChapterModalProps) => {
                   </FormItem>
                 )}
               />
-              <AlertDialogFooter className="gap-4">
+              <DialogFooter className="gap-4">
                 <DialogClose>
-                  <Button variant="outline"> Cancel</Button>
+                  <Button variant="outline">Cancel</Button>
                 </DialogClose>
-                <Button type="submit" disabled={pending}>
+                <Button type="submit" className="w-full md:w-fit" disabled={pending}>
                   {pending ? "Creating..." : "Create"}
                 </Button>
-              </AlertDialogFooter>
+              </DialogFooter>
             </form>
           </Form>
         </DialogHeader>

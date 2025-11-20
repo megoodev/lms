@@ -81,8 +81,8 @@ export const RenderUploadedState = ({
       >
         <XIcon className="size-4" />
       </Button>
-      <div className="relative flex items-center mx-auto justify-center max-h-[100%] max-w-[100%] h-48 w-48">
-        {isImage ? (<Image src={url} alt={url} fill className="object-contain" />): ( <video src={url} className="w-full h-full object-contain"/>)}
+      <div className="relative flex items-center mx-auto justify-center max-h-[100%] max-w-[100%] size-full object-cover">
+        {isImage ? (<Image src={url} alt={url} fill className="object-contain" />): ( <video src={url} controls className="w-full h-full object-contain"/>)}
         
       </div>
     </div>
