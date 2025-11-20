@@ -28,12 +28,12 @@ export async function getIndividualCourse(slug: string) {
               position: true,
             },
             orderBy: {
-              position: "desc",
+              position: "asc",
             },
           },
         },
         orderBy: {
-          position: "desc",
+          position: "asc",
         },
       },
     },

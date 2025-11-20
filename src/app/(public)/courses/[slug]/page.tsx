@@ -27,7 +27,6 @@ type Params = Promise<{ slug: string }>;
 
 const slugRoute = async ({ params }: { params: Params }) => {
   const { slug } = await params;
-  console.log(slug);
   const course = await getIndividualCourse(slug || "");
   const isEnrolled = await checkIfCourseBought(course.id);
   return (
