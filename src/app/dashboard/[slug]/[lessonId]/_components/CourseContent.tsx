@@ -8,8 +8,10 @@ import useConstructUrl from "@/hooks/use-construct-url";
 import { BookIcon, CheckCircle } from "lucide-react";
 import { MarkLessonComplete } from "../actions/action";
 import { toast } from "sonner";
-import { useTransition } from "react";
+import { useState, useTransition } from "react";
 import useConfetti from "@/hooks/useConfetti";
+import { IconPlayerPlay } from "@tabler/icons-react";
+import { Spinner } from "@/components/ui/spinner";
 
 interface iAppProps {
   data: GetLessonContentType;
@@ -36,9 +38,11 @@ const CourseContent = ({ data }: iAppProps) => {
         </div>
       );
     }
+
     return (
       <div className="aspect-video bg-black rounded-lg relative overflow-hidden">
         <video
+          autoPlay
           className="w-full h-fit object-cover"
           controls
           poster={thumbnailKey ? thumbnailUrl : ""}
